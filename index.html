@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitBlogMD - Markdown Blog Generator & Tutorial GitHub Pages</title>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <i class="fas fa-edit logo-icon"></i>
+        <span class="logo-text">GitBlogMD</span>
+      </div>
+      
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a class="nav-link active" onclick="switchTab('editor')">
+            <i class="fas fa-pen-fancy"></i>
+            <span>Tulis Postingan</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="switchTab('saved')">
+            <i class="fas fa-archive"></i>
+            <span>Daftar Postingan</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="switchTab('tutorial')">
+            <i class="fas fa-book-open"></i>
+            <span>Tutorial Skenario 1</span>
+          </a>
+        </li>
+      </ul>
+      
+      <div class="sidebar-footer">
+        <p>GitBlogMD v1.0.0</p>
+        <p style="margin-top:0.25rem;">Built for Android & Web</p>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Section 1: Editor Tulis Postingan -->
+      <section id="editorSection" class="content-section active">
+        <header class="app-header">
+          <div class="header-title">
+            <h1>Markdown Blog Generator</h1>
+            <p>Tulis artikel blog Jekyll Anda dan unduh dengan format penamaan file yang benar.</p>
+          </div>
+          <div>
+            <button class="btn btn-secondary" onclick="startNewPost()">
+              <i class="fas fa-file-signature"></i> Tulisan Baru
+            </button>
+          </div>
+        </header>
+
+        <div class="editor-grid">
+          <!-- Left Panel: Form & Markdown Input -->
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title"><i class="fas fa-sliders-h"></i> Konfigurasi Front Matter</span>
+            </div>
+            
+            <div class="panel-body">
+              <!-- Inputs Grid -->
+              <div class="form-group">
+                <label for="postTitle">Judul Artikel</label>
+                <input type="text" id="postTitle" class="form-control" placeholder="Masukkan judul artikel blog..." value="Halo Dunia">
+              </div>
+
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="postDate">Tanggal Postingan</label>
+                  <input type="date" id="postDate" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="postLayout">Layout</label>
+                  <input type="text" id="postLayout" class="form-control" value="post" placeholder="Default: post">
+                </div>
+              </div>
+
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="postCategories">Kategori</label>
+                  <input type="text" id="postCategories" class="form-control" value="tutorial" placeholder="Pemisah spasi (e.g. blog tutorial)">
+                </div>
+                <div class="form-group">
+                  <label for="postTags">Tag</label>
+                  <input type="text" id="postTags" class="form-control" value="github, jekyll" placeholder="Pemisah koma (e.g. jekyll, pages)">
+                </div>
+              </div>
+
+              <!-- Filename Preview Box -->
+              <div class="filename-preview-box">
+                <span class="filename-label"><i class="fas fa-file-code"></i> Nama File Keluar:</span>
+                <span id="filenamePreview" class="filename-text">2026-06-20-judul-artikel.md</span>
+              </div>
+
+              <!-- Markdown Textarea -->
+              <div class="form-group" style="flex: 1; min-height: 250px;">
+                <label for="markdownEditor">Konten Artikel (Markdown)</label>
+                <textarea id="markdownEditor" class="form-control" placeholder="Ketik konten artikel Anda di sini dengan syntax Markdown..."></textarea>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="action-buttons">
+                <button class="btn btn-success" onclick="saveCurrentPost()">
+                  <i class="fas fa-save"></i> Simpan Database
+                </button>
+                <button class="btn btn-primary" onclick="downloadCurrentPost()">
+                  <i class="fas fa-download"></i> Download .md
+                </button>
+                <button class="btn btn-secondary" onclick="copyRawJekyllContent()" title="Salin file lengkap beserta Front Matter">
+                  <i class="far fa-copy"></i> Salin
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Panel: Live HTML Preview -->
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title"><i class="far fa-eye"></i> Tinjauan Langsung (Live Preview)</span>
+            </div>
+            <div class="panel-body preview-container" id="previewArea">
+              <!-- Live Preview Content Renders Here -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Saved Posts -->
+      <section id="savedSection" class="content-section">
+        <header class="app-header">
+          <div class="header-title">
+            <h1>Daftar Postingan Blog</h1>
+            <p>Kelola file postingan yang tersimpan di dalam database penyimpanan lokal (localStorage) browser Anda.</p>
+          </div>
+        </header>
+        
+        <div id="savedPostsList">
+          <!-- JS will populate saved drafts here -->
+        </div>
+      </section>
+
+      <!-- Section 3: Tutorial (Interactive Book) -->
+      <section id="tutorialSection" class="content-section">
+        <header class="app-header">
+          <div class="header-title">
+            <h1>Panduan Lengkap Skenario 1</h1>
+            <p>Ikuti langkah demi langkah resmi untuk membuat blog gratis di GitHub Pages dengan Jekyll Theme.</p>
+          </div>
+        </header>
+
+        <div class="tutorial-container">
+          <!-- Tutorial Table of Contents -->
+          <nav class="tutorial-toc">
+            <h3 class="tutorial-toc-title">Daftar Isi Panduan</h3>
+            <a class="toc-link active" onclick="switchTutorialStep(1)"><i class="fas fa-bookmark"></i> 1. Buat Repositori</a>
+            <a class="toc-link" onclick="switchTutorialStep(2)"><i class="fas fa-cog"></i> 2. Konfigurasi Jekyll</a>
+            <a class="toc-link" onclick="switchTutorialStep(3)"><i class="fas fa-home"></i> 3. Halaman Utama</a>
+            <a class="toc-link" onclick="switchTutorialStep(4)"><i class="fas fa-feather"></i> 4. Menulis Postingan</a>
+            <a class="toc-link" onclick="switchTutorialStep(5)"><i class="fas fa-globe"></i> 5. Aktivasi & Publish</a>
+            <a class="toc-link" onclick="switchTutorialStep(6)"><i class="fas fa-laptop-code"></i> 6. Alur Kerja GitBlogMD</a>
+          </nav>
+
+          <!-- Tutorial Content Body -->
+          <article class="tutorial-body">
+            
+            <!-- Step 1 -->
+            <div id="step1" class="tutorial-step active">
+              <span class="step-num">Langkah 1</span>
+              <h2 class="step-title">Membuat Repositori Baru di GitHub</h2>
+              <p>GitHub Pages memerlukan repositori publik khusus untuk menghosting file situs web Anda secara gratis.</p>
+              
+              <h3>Langkah Detail:</h3>
+              <ol>
+                <li>Buka situs <a href="https://github.com" target="_blank">GitHub.com</a> dan masuk menggunakan akun Anda.</li>
+                <li>Klik tombol <strong>"New"</strong> atau klik ikon plus (+) di kanan atas lalu pilih <strong>"New repository"</strong>.</li>
+                <li>Pada kolom <strong>Repository name</strong>, masukkan nama dengan format persis seperti ini:
+                  <div style="background-color:rgba(255,255,255,0.05); padding: 0.5rem 1rem; border-radius: 6px; margin: 0.5rem 0; font-family:'Fira Code', monospace; color: #a855f7;">
+                    username.github.io
+                  </div>
+                  <em>(Ganti kata <strong>username</strong> dengan nama akun GitHub Anda secara persis. Jika username Anda "budi", nama repositorinya wajib "budi.github.io").</em>
+                </li>
+                <li>Pastikan visibilitas diatur ke **Public**. GitHub Pages tidak dapat diaktifkan secara gratis pada repositori privat (Private).</li>
+                <li>Centang opsi **Add a README file** untuk mempermudah inisialisasi awal.</li>
+                <li>Klik tombol hijau **"Create repository"** di bagian paling bawah.</li>
+              </ol>
+              
+              <div class="tutorial-alert">
+                <div class="tutorial-alert-title"><i class="fas fa-exclamation-triangle"></i> Catatan Sangat Penting:</div>
+                <p>Ekstensi ".github.io" di belakang username wajib ditulis dengan benar agar server GitHub mengenali bahwa repositori ini akan di-publish sebagai situs web.</p>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="step2" class="tutorial-step">
+              <span class="step-num">Langkah 2</span>
+              <h2 class="step-title">Membuat File Konfigurasi Jekyll (_config.yml)</h2>
+              <p>Jekyll adalah parser statis bawaan GitHub Pages. Untuk mengaktifkan tema Jekyll, kita memerlukan file konfigurasi bernama <code>_config.yml</code>.</p>
+              
+              <h3>Langkah Detail:</h3>
+              <ol>
+                <li>Di dalam repositori <code>username.github.io</code> Anda yang baru dibuat, klik tombol <strong>"Add file"</strong> lalu pilih <strong>"Create new file"</strong>.</li>
+                <li>Beri nama file tersebut: <strong style="font-family:'Fira Code', monospace;">_config.yml</strong></li>
+                <li>Salin kode konfigurasi di bawah ini dan tempelkan ke dalam editor teks GitHub:</li>
+              </ol>
+
+              <div class="codebox">
+                <div class="codebox-header">
+                  <span class="codebox-lang">YAML</span>
+                  <button class="codebox-copy" onclick="copyCodeSnippet('configCode', this)"><i class="far fa-copy"></i> Salin Kode</button>
+                </div>
+                <pre><code id="configCode">title: Blog Pribadi Saya
+description: Catatan harian mengenai pemrograman dan tips teknologi
+theme: jekyll-theme-minimal</code></pre>
+              </div>
+
+              <h3>Pilihan Tema Resmi Lainnya:</h3>
+              <p>Anda dapat mengganti nilai pada baris <code>theme:</code> dengan salah satu tema Jekyll yang didukung resmi oleh GitHub Pages di bawah ini:</p>
+              <ul>
+                <li><code>jekyll-theme-minimal</code> (Tema minimalis bersih)</li>
+                <li><code>jekyll-theme-cayman</code> (Tema dengan gradasi warna biru-hijau tebal)</li>
+                <li><code>jekyll-theme-architect</code> (Tema bernuansa teknikal modern)</li>
+                <li><code>jekyll-theme-slate</code> (Tema bernuansa dark mode abu-abu)</li>
+                <li><code>jekyll-theme-merlot</code> (Tema dengan layout sidebar merah tua)</li>
+              </ul>
+              
+              <ol start="4">
+                <li>Klik tombol hijau <strong>"Commit changes..."</strong> di kanan atas halaman untuk menyimpan file.</li>
+              </ol>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="step3" class="tutorial-step">
+              <span class="step-num">Langkah 3</span>
+              <h2 class="step-title">Membuat Halaman Utama (index.md)</h2>
+              <p>File <code>index.md</code> akan dibaca oleh Jekyll sebagai halaman muka/halaman beranda blog Anda saat pertama kali diakses.</p>
+              
+              <h3>Langkah Detail:</h3>
+              <ol>
+                <li>Kembali ke root repositori Anda, klik <strong>"Add file"</strong> lalu pilih <strong>"Create new file"</strong>.</li>
+                <li>Beri nama file tersebut: <strong style="font-family:'Fira Code', monospace;">index.md</strong></li>
+                <li>Salin kode template beranda di bawah ini dan tempelkan ke dalam editor teks:</li>
+              </ol>
+
+              <div class="codebox">
+                <div class="codebox-header">
+                  <span class="codebox-lang">Markdown + Front Matter</span>
+                  <button class="codebox-copy" onclick="copyCodeSnippet('indexCode', this)"><i class="far fa-copy"></i> Salin Kode</button>
+                </div>
+                <pre><code id="indexCode">---
+layout: default
+title: Beranda
+---
+
+# Selamat Datang di Blog Saya!
+
+Halo pembaca, ini adalah situs web statis saya yang dibuat secara langsung dari file **Markdown** dan di-host di **GitHub Pages** menggunakan engine **Jekyll**.
+
+### Daftar Postingan Terbaru
+Berikut adalah daftar catatan harian saya:
+
+{% for post in site.posts %}
+* [{{ post.title }}]({{ post.url }}) - {{ post.date | date: "%d %B %Y" }}
+{% endfor %}</code></pre>
+              </div>
+
+              <div class="tutorial-alert" style="border-left-color: var(--accent-primary); background-color: rgba(99,102,241,0.06)">
+                <div class="tutorial-alert-title"><i class="fas fa-info-circle"></i> Info Syntax {% ... %}:</div>
+                <p>Bagian bawah kode di atas menggunakan bahasa template <strong>Liquid</strong> bawaan Jekyll. Kode tersebut secara otomatis akan memindai folder <code>_posts</code> dan menampilkan daftar artikel Anda secara dinamis.</p>
+              </div>
+
+              <ol start="4">
+                <li>Klik tombol hijau <strong>"Commit changes..."</strong> untuk menyimpan file.</li>
+              </ol>
+            </div>
+
+            <!-- Step 4 -->
+            <div id="step4" class="tutorial-step">
+              <span class="step-num">Langkah 4</span>
+              <h2 class="step-title">Menulis Postingan Artikel (_posts/...)</h2>
+              <p>Semua tulisan blog atau postingan harus disimpan di dalam folder bernama <code>_posts</code>, dan penamaan file wajib mengikuti format tertentu agar bisa terindeks oleh mesin Jekyll.</p>
+              
+              <h3>Aturan Penulisan Postingan:</h3>
+              <ol>
+                <li><strong>Nama Folder</strong>: Di root direktori repositori Anda, buat folder baru bernama <strong>`_posts`</strong>.</li>
+                <li><strong>Penamaan File Artikel</strong>: Wajib menggunakan format format tanggal dan slug judul seperti berikut:
+                  <div style="background-color:rgba(255,255,255,0.05); padding: 0.5rem 1rem; border-radius: 6px; margin: 0.5rem 0; font-family:'Fira Code', monospace; color: #10b981;">
+                    YYYY-MM-DD-judul-tulisan.md
+                  </div>
+                  <em>Contoh: <code>2026-06-20-belajar-github-pages.md</code></em>
+                </li>
+                <li><strong>Front Matter (Header Metadata)</strong>: Di bagian paling atas file markdown Anda, wajib menyertakan Front Matter yang diapit oleh tanda tiga strip (`---`).</li>
+              </ol>
+
+              <h3>Contoh Postingan Lengkap:</h3>
+              <p>Buat file baru di dalam folder <code>_posts</code> dengan nama <code>2026-06-20-artikel-pertama.md</code> dan masukkan isi berikut:</p>
+
+              <div class="codebox">
+                <div class="codebox-header">
+                  <span class="codebox-lang">Markdown + Front Matter</span>
+                  <button class="codebox-copy" onclick="copyCodeSnippet('postExampleCode', this)"><i class="far fa-copy"></i> Salin Kode</button>
+                </div>
+                <pre><code id="postExampleCode">---
+layout: post
+title: "Artikel Pertama: Cara Mulai Menulis"
+date: 2026-06-20
+categories: blog tutorial
+tags: [github, jekyll]
+---
+
+# Pendahuluan
+
+Selamat datang di postingan blog pertama saya! Hari ini saya belajar cara mempublikasikan artikel di blog GitHub menggunakan Jekyll.
+
+### Mengapa Memakai Markdown?
+* Sangat ringan dan mudah dibaca.
+* Tidak membutuhkan tag HTML yang rumit.
+* Terintegrasi langsung dengan editor GitBlogMD.
+
+Sekian tulisan singkat dari saya, selamat mencoba!</code></pre>
+              </div>
+
+              <ol start="4">
+                <li>Klik tombol hijau <strong>"Commit changes..."</strong> untuk menyimpan postingan pertama Anda.</li>
+              </ol>
+            </div>
+
+            <!-- Step 5 -->
+            <div id="step5" class="tutorial-step">
+              <span class="step-num">Langkah 5</span>
+              <h2 class="step-title">Mengaktifkan & Membuka Blog Anda</h2>
+              <p>Setelah seluruh file konfigurasi, halaman utama, dan artikel pertama Anda buat, langkah terakhir adalah mengaktifkan fitur GitHub Pages dan mempublikasikannya ke internet.</p>
+              
+              <h3>Langkah Aktivasi:</h3>
+              <ol>
+                <li>Buka halaman utama repositori Anda di GitHub.</li>
+                <li>Klik tab <strong>"Settings"</strong> yang berada di bagian atas menu navigasi repositori (sebelah tab "Insights").</li>
+                <li>Pada panel navigasi sebelah kiri, klik menu <strong>"Pages"</strong> di bawah bagian <em>Code and automation</em>.</li>
+                <li>Di bagian <strong>Build and deployment</strong>:
+                  <ul>
+                    <li>Pastikan drop-down <strong>Source</strong> memilih opsi <strong>"Deploy from a branch"</strong>.</li>
+                    <li>Di bagian <strong>Branch</strong>, ubah pilihan dari <code>None</code> menjadi <strong>`main`</strong> (atau <code>master</code>) lalu pilih folder <strong>`/ (root)`</strong>.</li>
+                    <li>Klik tombol <strong>"Save"</strong> di sebelahnya.</li>
+                  </ul>
+                </li>
+                <li>Tunggu proses kompilasi berjalan sekitar 1 hingga 2 menit. Anda bisa me-refresh halaman settings tersebut.</li>
+                <li>Setelah selesai, GitHub akan memunculkan banner notifikasi sukses berwarna hijau di atas halaman Pages Anda yang berisi alamat URL langsung blog Anda:
+                  <div style="background-color:rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.75rem 1rem; border-radius: 8px; margin: 0.75rem 0; font-weight:600;">
+                    Your site is live at: <a href="#" id="liveUrlPreview" style="color:var(--accent-primary); text-decoration:underline;">https://username.github.io/</a>
+                  </div>
+                </li>
+                <li>Klik tautan tersebut untuk melihat blog Jekyll kustom Anda yang cantik!</li>
+              </ol>
+
+              <div class="tutorial-alert" style="border-left-color: var(--accent-success); background-color: rgba(16, 185, 129, 0.06)">
+                <div class="tutorial-alert-title"><i class="fas fa-check-circle"></i> Selesai!</div>
+                <p>Selamat! Sekarang situs blog Anda telah aktif di seluruh dunia secara gratis selamanya.</p>
+              </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div id="step6" class="tutorial-step">
+              <span class="step-num">Alur Kerja Cepat</span>
+              <h2 class="step-title">Menggunakan GitBlogMD Untuk Menulis Harian</h2>
+              <p>Aplikasi <strong>GitBlogMD</strong> ini dirancang untuk memudahkan Anda menulis secara offline tanpa pusing dengan struktur file Jekyll.</p>
+              
+              <h3>Cara Penggunaan Sehari-hari:</h3>
+              <ol>
+                <li>Buka menu <strong>"Tulis Postingan"</strong> pada aplikasi ini.</li>
+                <li>Tulis judul artikel baru Anda di kolom **Judul Artikel**. Aplikasi secara otomatis akan mem-format nama file keluar agar pas dengan konvensi Jekyll.</li>
+                <li>Tulis konten postingan Anda di area teks editor menggunakan Markdown. Gunakan **Live Preview** untuk melihat langsung visual akhirnya.</li>
+                <li>Jika belum selesai, klik tombol **"Simpan Database"** untuk menyimpannya sebagai draf lokal di browser Anda. Draf ini bisa dibuka kembali kapan saja di menu **"Daftar Postingan"**.</li>
+                <li>Jika sudah siap dipublikasikan:
+                  <ul>
+                    <li>Klik tombol **"Download .md"** untuk mengunduh file postingan secara langsung ke perangkat Android/Komputer Anda.</li>
+                    <li>Buka repositori <code>username.github.io</code> Anda di GitHub.</li>
+                    <li>Masuk ke folder <strong>`_posts`</strong>.</li>
+                    <li>Klik <strong>"Add file"</strong> -> <strong>"Upload files"</strong>.</li>
+                    <li>Pilih file <code>.md</code> yang baru saja Anda unduh tadi, lalu lakukan **Commit changes**.</li>
+                  </ul>
+                </li>
+                <li>Selesai! GitHub Pages akan me-build artikel baru tersebut secara otomatis dalam beberapa detik.</li>
+              </ol>
+            </div>
+
+          </article>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Marked JS Markdown Parser from JSDelivr CDN (With robust local fallback) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  
+  <!-- Main App Script -->
+  <script src="app.js"></script>
+
+</body>
+</html>
