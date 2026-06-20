@@ -170,21 +170,28 @@
       <section id="tutorialSection" class="content-section">
         <header class="app-header">
           <div class="header-title">
-            <h1>Panduan Lengkap Skenario 1</h1>
-            <p>Ikuti langkah demi langkah resmi untuk membuat blog gratis di GitHub Pages dengan Jekyll Theme.</p>
+            <h1>Panduan Lengkap Blog Jekyll & GitHub Pages</h1>
+            <p>Ikuti langkah demi langkah resmi untuk membuat blog gratis di GitHub Pages dengan Jekyll Theme (Skenario 1 & Skenario 2).</p>
           </div>
         </header>
 
         <div class="tutorial-container">
           <!-- Tutorial Table of Contents -->
           <nav class="tutorial-toc">
-            <h3 class="tutorial-toc-title">Daftar Isi Panduan</h3>
+            <h3 class="tutorial-toc-title">Skenario 1: Jekyll Bawaan</h3>
             <a class="toc-link active" onclick="switchTutorialStep(1)"><i class="fas fa-bookmark"></i> 1. Buat Repositori</a>
             <a class="toc-link" onclick="switchTutorialStep(2)"><i class="fas fa-cog"></i> 2. Konfigurasi Jekyll</a>
             <a class="toc-link" onclick="switchTutorialStep(3)"><i class="fas fa-home"></i> 3. Halaman Utama</a>
             <a class="toc-link" onclick="switchTutorialStep(4)"><i class="fas fa-feather"></i> 4. Menulis Postingan</a>
             <a class="toc-link" onclick="switchTutorialStep(5)"><i class="fas fa-globe"></i> 5. Aktivasi & Publish</a>
-            <a class="toc-link" onclick="switchTutorialStep(6)"><i class="fas fa-laptop-code"></i> 6. Alur Kerja GitBlogMD</a>
+            
+            <h3 class="tutorial-toc-title" style="margin-top: 1.25rem;">Skenario 2: Tema Kustom</h3>
+            <a class="toc-link" onclick="switchTutorialStep(6)"><i class="fas fa-palette"></i> 6. Pilih & Salin Tema</a>
+            <a class="toc-link" onclick="switchTutorialStep(7)"><i class="fas fa-tasks"></i> 7. Setup GH Actions</a>
+            <a class="toc-link" onclick="switchTutorialStep(8)"><i class="fas fa-sync-alt"></i> 8. Edit & Upload Konten</a>
+            
+            <h3 class="tutorial-toc-title" style="margin-top: 1.25rem;">Alur Kerja Editor</h3>
+            <a class="toc-link" onclick="switchTutorialStep(9)"><i class="fas fa-laptop-code"></i> 9. Integrasi GitBlogMD</a>
           </nav>
 
           <!-- Tutorial Content Body -->
@@ -386,6 +393,128 @@ Sekian tulisan singkat dari saya, selamat mencoba!</code></pre>
 
             <!-- Step 6 -->
             <div id="step6" class="tutorial-step">
+              <span class="step-num">Skenario 2: Langkah 1</span>
+              <h2 class="step-title">Memilih dan Menyalin Tema Jekyll Kustom</h2>
+              <p>Tema bawaan GitHub Pages di Skenario 1 sangat terbatas. Di Skenario 2, kita bisa menggunakan ratusan tema Jekyll modern yang dibuat oleh komunitas di internet.</p>
+              
+              <h3>Langkah Detail:</h3>
+              <ol>
+                <li>Cari tema Jekyll gratis yang Anda inginkan di situs web seperti:
+                  <ul>
+                    <li><a href="https://jekyllthemes.org/" target="_blank">jekyllthemes.org</a></li>
+                    <li><a href="https://jekyll-themes.com/" target="_blank">jekyll-themes.com</a></li>
+                    <li>Atau cari repositori di GitHub dengan topik: <code>jekyll-theme</code>.</li>
+                  </ul>
+                </li>
+                <li>Buka halaman repositori GitHub tema tersebut.</li>
+                <li>Cari tombol hijau bernama <strong>"Use this template"</strong> di bagian kanan atas repositori.
+                  <ul>
+                    <li>Jika ada, klik tombol tersebut, lalu buat repositori baru dengan nama <code>username.github.io</code>.</li>
+                    <li>Jika tombol tersebut tidak ada, klik tombol <strong>"Fork"</strong> untuk menduplikasi repositori ke akun Anda.</li>
+                  </ul>
+                </li>
+                <li>Setelah repositori tersalin ke akun Anda, jika Anda melakukan *fork*, ubah nama repositorinya (melalui menu <strong>Settings</strong> -> <strong>General</strong>) menjadi <code>username.github.io</code> (sesuaikan dengan nama pengguna GitHub Anda).</li>
+              </ol>
+              
+              <div class="tutorial-alert" style="border-left-color: var(--accent-primary); background-color: rgba(99,102,241,0.06)">
+                <div class="tutorial-alert-title"><i class="fas fa-info-circle"></i> Info:</div>
+                <p>Metode menyalin template atau melakukan fork ini membuat Anda langsung mendapatkan struktur folder blog lengkap beserta berkas konfigurasi, aset gambar, dan desain tema dari pembuatnya tanpa setup dari nol.</p>
+              </div>
+            </div>
+
+            <!-- Step 7 -->
+            <div id="step7" class="tutorial-step">
+              <span class="step-num">Skenario 2: Langkah 2</span>
+              <h2 class="step-title">Menyiapkan GitHub Actions untuk Build Otomatis</h2>
+              <p>Sebagian besar tema Jekyll kustom menggunakan plugin khusus yang dilarang atau tidak didukung oleh compiler bawaan GitHub Pages. Oleh karena itu, kita harus mem-build situs menggunakan <strong>GitHub Actions</strong>.</p>
+              
+              <h3>Langkah Detail:</h3>
+              <ol>
+                <li>Masuk ke halaman utama repositori <code>username.github.io</code> Anda yang baru disalin.</li>
+                <li>Masuk ke menu <strong>Settings</strong> -> <strong>Pages</strong>.</li>
+                <li>Pada bagian <strong>Build and deployment</strong> -> di bawah pilihan <strong>Source</strong>, ubah opsi dari <code>Deploy from a branch</code> menjadi <strong>"GitHub Actions"</strong>.</li>
+                <li>Hampir seluruh tema Jekyll modern sudah menyertakan berkas workflow deployment di dalam folder <code>.github/workflows/</code> (biasanya bernama <code>jekyll-gh-pages.yml</code> atau <code>pages-deploy.yml</code>). Jika sudah ada, proses deployment akan langsung berjalan secara otomatis.</li>
+                <li>Jika tema pilihan Anda belum menyediakannya, Anda bisa membuat berkas workflow baru secara manual dengan nama <code>.github/workflows/jekyll.yml</code> dan menyalin kode workflow standar berikut:</li>
+              </ol>
+
+              <div class="codebox">
+                <div class="codebox-header">
+                  <span class="codebox-lang">YAML (.github/workflows/jekyll.yml)</span>
+                  <button class="codebox-copy" onclick="copyCodeSnippet('actionsCode', this)"><i class="far fa-copy"></i> Salin Kode</button>
+                </div>
+                <pre><code id="actionsCode">name: Deploy Jekyll site to Pages
+
+on:
+  push:
+    branches: ["main", "master"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4</code></pre>
+              </div>
+            </div>
+
+            <!-- Step 8 -->
+            <div id="step8" class="tutorial-step">
+              <span class="step-num">Skenario 2: Langkah 3</span>
+              <h2 class="step-title">Mengedit Konfigurasi & Menulis Konten</h2>
+              <p>Setelah GitHub Actions aktif, Anda tinggal melakukan penyesuaian identitas blog Anda pada berkas konfigurasi utama.</p>
+              
+              <h3>Langkah Detail:</h3>
+              <ol>
+                <li>Buka berkas <strong>`_config.yml`</strong> bawaan tema di repositori Anda.</li>
+                <li>Sesuaikan variabel-variabel tema (misalnya: judul blog, deskripsi, nama penulis, link sosial media, dan pengaturan avatar).</li>
+                <li>Cari folder <strong>`_posts`</strong> bawaan tema tersebut:
+                  <ul>
+                    <li>Biasanya sudah ada beberapa artikel contoh (dummy posts) yang ditaruh di sana oleh pembuat tema.</li>
+                    <li>Anda bisa menghapus file dummy tersebut atau mengedit isinya langsung.</li>
+                  </ul>
+                </li>
+                <li>Tulis artikel baru menggunakan editor <strong>GitBlogMD</strong> ini, unduh berkasnya, lalu unggah (upload) ke folder <code>_posts</code> di repositori GitHub Anda.</li>
+                <li>Setiap kali Anda menekan **Commit**, GitHub Actions di tab <strong>Actions</strong> akan berjalan otomatis membangun blog Anda.</li>
+              </ol>
+
+              <div class="tutorial-alert" style="border-left-color: var(--accent-success); background-color: rgba(16, 185, 129, 0.06)">
+                <div class="tutorial-alert-title"><i class="fas fa-check-circle"></i> Selesai!</div>
+                <p>Blog ber-tema kustom Anda yang cantik dan profesional kini telah aktif secara global menggunakan engine build otomatis GitHub Actions!</p>
+              </div>
+            </div>
+
+            <!-- Step 9 -->
+            <div id="step9" class="tutorial-step">
               <span class="step-num">Alur Kerja Cepat</span>
               <h2 class="step-title">Menggunakan GitBlogMD Untuk Menulis Harian</h2>
               <p>Aplikasi <strong>GitBlogMD</strong> ini dirancang untuk memudahkan Anda menulis secara offline tanpa pusing dengan struktur file Jekyll.</p>
