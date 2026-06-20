@@ -490,6 +490,13 @@ function insertMarkdown(type) {
     case 'ol':
       replacement = `\n1. ${selectedText || 'Item daftar'}\n`;
       break;
+    case 'image':
+      const imgUrl = prompt('Masukkan URL gambar:', 'https://');
+      if (imgUrl === null) return; // cancelled
+      const altText = prompt('Masukkan teks deskripsi gambar (Alt Text):', selectedText || 'Deskripsi Gambar');
+      if (altText === null) return; // cancelled
+      replacement = `![${altText}](${imgUrl})`;
+      break;
   }
 
   // Set new value
