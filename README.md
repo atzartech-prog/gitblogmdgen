@@ -1,8 +1,8 @@
 # GitBlogMD 📝
 
-**GitBlogMD** adalah aplikasi web ringan berbasis HTML, CSS, JS, dan LocalStorage yang dirancang khusus untuk mempermudah alur kerja penulisan blog statis di GitHub Pages dengan tema Jekyll (khususnya untuk **Skenario 1**: menggunakan tema bawaan GitHub Pages).
+**GitBlogMD** adalah aplikasi web ringan berbasis HTML, CSS, JS, dan LocalStorage yang dirancang khusus untuk mempermudah alur kerja penulisan blog statis di GitHub Pages dengan tema Jekyll. Aplikasi ini mendukung penuh pembuatan blog untuk **Skenario 1** (Tema Jekyll bawaan) maupun **Skenario 2** (Tema Jekyll kustom dari komunitas menggunakan build otomatis GitHub Actions).
 
-Aplikasi ini berfungsi sebagai **Markdown Generator** sekaligus menyediakan **Panduan Interaktif Skenario 1** secara terintegrasi dari awal hingga blog Anda online.
+Aplikasi ini berfungsi sebagai **Markdown Generator** yang dilengkapi toolbar visual sekaligus menyediakan **Panduan Interaktif Lengkap** dari awal hingga blog Anda online.
 
 ---
 
@@ -13,23 +13,25 @@ Aplikasi ini berfungsi sebagai **Markdown Generator** sekaligus menyediakan **Pa
    * Format metadata diubah menjadi header YAML front-matter yang valid secara otomatis.
 2. **Auto-Sluggify Filename**:
    * Nama file keluaran dibuat secara otomatis mengikuti format konvensi Jekyll: `YYYY-MM-DD-judul-slug.md`.
-3. **Live Preview Editor**:
+3. **Editor Formatting Toolbar Helper**:
+   * Tombol pintas sekali klik untuk memasukkan tag Markdown umum: **Tebal**, *Miring*, Judul (Heading), Tautan (Link), Blok Kode, Kutipan (Blockquote), Daftar (List Bullets/Numbers), dan Gambar.
+4. **Live Preview Editor**:
    * Tinjau langsung tampilan rendering HTML dari artikel Markdown yang sedang Anda ketik di sisi editor.
-4. **Draft Manager (LocalStorage)**:
+5. **Draft Manager (LocalStorage)**:
    * Simpan tulisan Anda secara lokal ke memori browser. Anda dapat mengedit, menghapus, atau mendownload draft lama kapan saja tanpa takut kehilangan data.
-5. **One-Click Actions**:
+6. **One-Click Actions**:
    * **Download .md**: Unduh file langsung dengan ekstensi `.md` yang siap diunggah ke folder `_posts` repositori GitHub Anda.
    * **Salin Konten**: Salin seluruh isi file beserta Front Matter ke clipboard dalam satu ketukan.
-6. **Panduan Skenario 1 Terintegrasi**:
-   * Buku panduan interaktif step-by-step dari pembuatan repositori, file `_config.yml`, `index.md`, hingga cara menulis artikel harian menggunakan GitBlogMD.
+7. **Panduan Komprehensif Terintegrasi**:
+   * Buku panduan interaktif step-by-step untuk **Skenario 1** (Jekyll bawaan) dan **Skenario 2** (Jekyll kustom komunitas + GitHub Actions workflow).
 
 ---
 
 ## 📂 Struktur Berkas
 
-* **`index.html`**: Halaman struktural utama aplikasi, sidebar navigasi, form input, dan konten tutorial.
+* **`index.html`**: Halaman struktural utama aplikasi, toolbar editor, sidebar navigasi, form input, dan konten tutorial.
 * **`style.css`**: Lembar gaya dengan tema *dark mode* modern, efek *glassmorphism*, font *Outfit* & *Fira Code*, serta desain yang responsif di HP Android.
-* **`app.js`**: Logika pengontrol, live-preview parser, manajemen state penyimpanan `localStorage`, generator slug, dan penanganan file unduhan.
+* **`app.js`**: Logika pengontrol, helper pemformatan teks, live-preview parser, manajemen state penyimpanan `localStorage`, generator slug, dan penanganan file unduhan.
 * **`README.md`**: Dokumen panduan repositori ini.
 
 ---
