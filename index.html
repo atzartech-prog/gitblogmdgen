@@ -109,9 +109,19 @@
               </div>
 
               <!-- Markdown Textarea -->
-              <div class="form-group" style="flex: 1; min-height: 250px;">
+              <div class="form-group" style="flex: 1; min-height: 250px; display: flex; flex-direction: column;">
                 <label for="markdownEditor">Konten Artikel (Markdown)</label>
-                <textarea id="markdownEditor" class="form-control" placeholder="Ketik konten artikel Anda di sini dengan syntax Markdown..."></textarea>
+                <div class="editor-toolbar">
+                  <button type="button" class="toolbar-btn" onclick="insertMarkdown('bold')" title="Tebal (Bold)"><i class="fas fa-bold"></i></button>
+                  <button type="button" class="toolbar-btn" onclick="insertMarkdown('italic')" title="Miring (Italic)"><i class="fas fa-italic"></i></button>
+                  <button type="button" class="toolbar-btn" onclick="insertMarkdown('heading')" title="Judul (Heading)"><i class="fas fa-heading"></i></button>
+                  <button type="button" class="toolbar-btn" onclick="insertMarkdown('link')" title="Tautan (Link)"><i class="fas fa-link"></i></button>
+                  <button type="button" class="toolbar-btn" onclick="insertMarkdown('code')" title="Blok Kode (Code Block)"><i class="fas fa-code"></i></button>
+                  <button type="button" class="toolbar-btn" onclick="insertMarkdown('quote')" title="Kutipan (Quote)"><i class="fas fa-quote-left"></i></button>
+                  <button type="button" class="toolbar-btn" onclick="insertMarkdown('ul')" title="Daftar Bullets (Unordered List)"><i class="fas fa-list-ul"></i></button>
+                  <button type="button" class="toolbar-btn" onclick="insertMarkdown('ol')" title="Daftar Angka (Ordered List)"><i class="fas fa-list-ol"></i></button>
+                </div>
+                <textarea id="markdownEditor" class="form-control" placeholder="Ketik konten artikel Anda di sini dengan syntax Markdown..." style="flex: 1; margin-top: 0; border-top-left-radius: 0; border-top-right-radius: 0;"></textarea>
               </div>
 
               <!-- Action Buttons -->

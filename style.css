@@ -854,3 +854,36 @@ textarea.form-control {
     flex: 1 1 calc(50% - 0.5rem);
   }
 }
+
+/* Editor Toolbar Styles */
+.editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+  padding: 0.5rem;
+  border-radius: 8px 8px 0 0;
+}
+
+.toolbar-btn {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  font-size: 0.85rem;
+}
+
+.toolbar-btn:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.toolbar-btn:focus {
+  outline: none;
+}

@@ -453,6 +453,68 @@ function switchTutorialStep(stepNum) {
   document.querySelector('.tutorial-body').scrollTop = 0;
 }
 
+// Insert Markdown Formatting at Cursor helper
+function insertMarkdown(type) {
+  const textarea = document.getElementById('markdownEditor');
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const text = textarea.value;
+  const selectedText = text.substring(start, end);
+  
+  let replacement = '';
+  
+  switch (type) {
+    case 'bold':
+      replacement = `**${selectedText || 'teks tebal'}**`;
+      break;
+    case 'italic':
+      replacement = `*${selectedText || 'teks miring'}*`;
+      break;
+    case 'heading':
+      replacement = `\n## ${selectedText || 'Judul Baru'}\n`;
+      break;
+    case 'link':
+      const url = prompt('Masukkan URL tautan:', 'https://');
+      if (url === null) return; // cancelled
+      replacement = `[${selectedText || 'Teks Tautan'}](${url})`;
+      break;
+    case 'code':
+      replacement = `\n\`\`\`javascript\n${selectedText || '// Tulis kode di sini'}\n\`\`\`\n`;
+      break;
+    case 'quote':
+      replacement = `\n> ${selectedText || 'Teks kutipan'}\n`;
+      break;
+    case 'ul':
+      replacement = `\n* ${selectedText || 'Item daftar'}\n`;
+      break;
+    case 'ol':
+      replacement = `\n1. ${selectedText || 'Item daftar'}\n`;
+      break;
+  }
+
+  // Set new value
+  textarea.value = text.substring(0, start) + replacement + text.substring(end);
+  
+  // Refocus and set cursor selection
+  textarea.focus();
+  if (selectedText) {
+    textarea.setSelectionRange(start + replacement.length, start + replacement.length);
+  } else {
+    // If no text was selected, place cursor in the middle of tags
+    if (type === 'bold') {
+      textarea.setSelectionRange(start + 2, start + 2 + 'teks tebal'.length);
+    } else if (type === 'italic') {
+      textarea.setSelectionRange(start + 1, start + 1 + 'teks miring'.length);
+    } else {
+      textarea.setSelectionRange(start + replacement.length, start + replacement.length);
+    }
+  }
+
+  // Update state and render preview
+  saveInputsToState();
+  renderPreview();
+}
+
 // Event Listeners Initialization
 window.addEventListener('DOMContentLoaded', () => {
   // Load default post to editor
